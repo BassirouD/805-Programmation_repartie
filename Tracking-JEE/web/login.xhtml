@@ -39,13 +39,13 @@
             <div class="form-container">
                 <div class="card">
                 <h:form>
-                    <p:inputText placeholder="Email" value="#{loginBean.email}"/><br/>
+                    <p:inputText placeholder="Email" value="#{loginBean.email}" required="true"/><br/>
                     <br/>
-                    <p:inputText placeholder="Password" type="password" value="#{loginBean.password}"/><br/>
+                    <p:inputText placeholder="Password" type="password" value="#{loginBean.password}" required="true"/><br/>
                     <br/>
                     <div class="button-container">
-                        <h:commandButton value="Se connecter" action="#{loginBean.login}" styleClass="green-button" immediate="false"/>
-                        <h:commandButton value="S'inscrire" onclick="window.location.href='inscription.xhtml'; return false;" />
+                        <p:commandButton value="Connecter" action="#{loginBean.login}" styleClass="green-button mt-1" immediate="false"/>
+                        <h:commandButton value="S'inscrire" styleClass="mt-1" onclick="window.location.href='inscription.xhtml'; return false;"/>
                     </div>
                 </h:form>
                 </div>

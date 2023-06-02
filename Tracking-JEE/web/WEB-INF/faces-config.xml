@@ -15,4 +15,10 @@
         <managed-bean-class>org.urca.Beans.InscriptionBean</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
+    
+    <managed-bean>
+        <managed-bean-name>activiteBean</managed-bean-name>
+        <managed-bean-class>org.urca.Beans.ActiviteBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
 </faces-config>

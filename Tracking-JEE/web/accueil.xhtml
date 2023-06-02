@@ -11,7 +11,27 @@
             <h:panelGrid columns="3" cellpadding="7" class="title-container">
                 <p:outputLabel value="#{loginBean.nom}"/>
             </h:panelGrid>
-       <h:outputText value="Bienvenue, #{sessionScope.nom}" />
+       <h:outputText value="Bienvenue, #{sessionScope.nom}" /><br/>
+       <br/>
+       
+       
+       
+       <p:panel id="pnl" header="Mes activités" style="width: 50%">
+            <h:panelGrid columns="3" cellpadding="7">
+                <h:dataTable value="#{activiteBean.activites}" var="activite">
+                    <p:column style="width:20px">
+                        <h:outputText id="dragIcon" styleClass="ui-icon pi pi-plus"/>
+                        <p:draggable for="dragIcon" revert="true" helper="clone"/>
+                    </p:column>
+
+                    <p:column headerText="Code">
+                        <h:outputText value="#{activite.nom}"/>
+                    </p:column>
+                </h:dataTable>
+            </h:panelGrid>
+
+        </p:panel>
+
     </h:body>
 </html>
 

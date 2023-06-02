@@ -73,8 +73,7 @@ public class LoginBean {
             preparedStatement.setString(2, password);
             rs = preparedStatement.executeQuery();
             if (rs.next()) {
-                System.out.println("---------------------"+rs.getString(1));
-                int id = Integer.parseInt(rs.getString(1));
+                int id = Integer.parseInt(rs.getString(3));
                 nom = rs.getString(5);
                 FacesContext.getCurrentInstance().getExternalContext().getSessionMap().put("utilisateur", email);
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message succes", "Auth résussi." + nom);
@@ -83,12 +82,16 @@ public class LoginBean {
                 ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
                 HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
                 
+                HttpServletRequest request1 = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+                System.out.println("#################################"+id);
+                request1.getSession().setAttribute("id", id);
+                
                 HttpSession session = request.getSession();
                 session.setAttribute("id", id);
                 session.setAttribute("nom", nom);
                 
+                
                 int valeur = (int) session.getAttribute("id");
-                System.out.println("Session===>: " + id);
                 
                 externalContext.redirect("accueil.xhtml");
             } else {
@@ -98,7 +101,6 @@ public class LoginBean {
                 FacesContext.getCurrentInstance().addMessage(null, message);
             }
         }catch(Exception e) {
-            System.out.println("Error " + e.getMessage());
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur de base de données", "Une erreur s'est produite lors de la connexion à la base de données.");
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
