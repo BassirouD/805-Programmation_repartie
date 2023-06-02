@@ -33,6 +33,9 @@
     <h:body>
         <div>
             <h1 class="title-container">Page insrcription</h1>
+            <h:panelGrid columns="3" cellpadding="7" class="title-container">
+                <p:outputLabel value="#{inscriptionBean.message}"/>
+            </h:panelGrid>
             <div class="form-container">
                 <h:form>
                     <p:inputText placeholder="Nom" value="#{inscriptionBean.nom}"/><br/>
@@ -51,7 +54,6 @@
                         <h:commandButton value="S'inscrire" action="#{inscriptionBean.register}" styleClass="green-button" />
                         <h:commandButton value="Se connecter" onclick="window.location.href='login.xhtml'; return false;" />
                     </div>
-                    
                 </h:form>
             </div>
         </div>

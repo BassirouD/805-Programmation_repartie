@@ -32,18 +32,23 @@
     </h:head>
     <h:body>
             <h1 class="title-container">Page Login</h1>
+            <h:panelGrid columns="3" cellpadding="7" class="title-container">
+                <p:outputLabel value="#{loginBean.message}"/>
+            </h:panelGrid>
+
             <div class="form-container">
+                <div class="card">
                 <h:form>
-                    <p:inputText placeholder="Email"/><br/>
+                    <p:inputText placeholder="Email" value="#{loginBean.email}"/><br/>
                     <br/>
-                    <p:inputText placeholder="Password" type="password"/><br/>
+                    <p:inputText placeholder="Password" type="password" value="#{loginBean.password}"/><br/>
                     <br/>
                     <div class="button-container">
-                        <h:commandButton value="Se connecter" action="#{inscriptionBean.register}" styleClass="green-button" />
+                        <h:commandButton value="Se connecter" action="#{loginBean.login}" styleClass="green-button" />
                         <h:commandButton value="S'inscrire" onclick="window.location.href='inscription.xhtml'; return false;" />
                     </div>
-                    
                 </h:form>
+                </div>
             </div>
     </h:body>
 </html>

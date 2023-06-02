@@ -22,6 +22,8 @@ public class InscriptionBean {
     private String password;
     private int age;
     private Double poids;
+    
+    private String message;
 
     public InscriptionBean() {
     }
@@ -33,6 +35,14 @@ public class InscriptionBean {
         this.password = password;
         this.age = age;
         this.poids = poids;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
     }
 
     public Long getId() {
@@ -112,7 +122,13 @@ public class InscriptionBean {
             // Fermeture des ressources
             preparedStatement.close();
             con.close();
-            System.out.println("Done.......");
+            message="Inscription réussi avec succès!!!";
+            nom="";
+            prenom="";
+            email="";
+            password="";
+            age=0;
+            poids=0.0;
         }catch(Exception e) {
             System.out.println("Error " + e.getMessage());
         }
