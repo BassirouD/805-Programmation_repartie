@@ -1,0 +1,60 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:h="http://xmlns.jcp.org/jsf/html">
+    <h:head>
+        <title>Facelet Title</title>
+        <style>
+            .form-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid #ccc;
+                padding: 20px;
+                border-radius: 5px;
+                margin-left: 15%;
+                margin-right: 15%;
+            }
+            .title-container {
+                display: flex;
+                justify-content: center;
+            }
+            .button-container {
+                display: flex;
+                justify-content: space-between;
+            }
+            .green-button {
+                background-color: green;
+                color: white;
+            }
+        </style>
+    </h:head>
+    <h:body>
+        <div>
+            <h1 class="title-container">Page insrcription</h1>
+            <div class="form-container">
+                <h:form>
+                    <p:inputText placeholder="Nom" value="#{inscriptionBean.nom}"/><br/>
+                    <br/>
+                    <p:inputText placeholder="Prénom" value="#{inscriptionBean.prenom}"/><br/>
+                    <br/>
+                    <p:inputText placeholder="Email" value="#{inscriptionBean.email}"/><br/>
+                    <br/>
+                    <p:inputText placeholder="Password" type="password" value="#{inscriptionBean.password}"/><br/>
+                    <br/>
+                    <p:inputText placeholder="Age" type="number" value="#{inscriptionBean.age}"/><br/>
+                    <br/>
+                    <p:inputText placeholder="Poids" type="number" value="#{inscriptionBean.poids}" /><br/>
+                    <br/>
+                    <div class="button-container">
+                        <h:commandButton value="S'inscrire" action="#{inscriptionBean.register}" styleClass="green-button" />
+                        <h:commandButton value="Se connecter" onclick="window.location.href='login.xhtml'; return false;" />
+                    </div>
+                    
+                </h:form>
+            </div>
+        </div>
+    </h:body>
+</html>
+
