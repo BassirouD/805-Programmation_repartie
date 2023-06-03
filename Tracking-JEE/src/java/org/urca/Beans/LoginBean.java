@@ -25,6 +25,10 @@ public class LoginBean {
     private String password;
     private String msg;
     private String nom;
+    //HttpServletRequest request1 = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
+    ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+    HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+    HttpSession session;
 
     public String getNom() {
         return nom;
@@ -33,8 +37,6 @@ public class LoginBean {
     public void setNom(String nom) {
         this.nom = nom;
     }
-    
-    
 
     public String getMsg() {
         return msg;
@@ -79,20 +81,13 @@ public class LoginBean {
                 FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Message succes", "Auth résussi." + nom);
                 msg = "Auth résussi." + id;
                 
-                ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
-                HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+                //request1.getSession().setAttribute("id", id);
                 
-                HttpServletRequest request1 = (HttpServletRequest) FacesContext.getCurrentInstance().getExternalContext().getRequest();
-                System.out.println("#################################"+id);
-                request1.getSession().setAttribute("id", id);
-                
-                HttpSession session = request.getSession();
+                session = request.getSession();
                 session.setAttribute("id", id);
                 session.setAttribute("nom", nom);
                 
-                
                 int valeur = (int) session.getAttribute("id");
-                
                 externalContext.redirect("accueil.xhtml");
             } else {
                 msg = "Identifiants invalides.";
@@ -104,6 +99,12 @@ public class LoginBean {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur de base de données", "Une erreur s'est produite lors de la connexion à la base de données.");
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
+    }
+    
+    public void logout() throws IOException{
+        this.session.removeAttribute("id");
+        this.session.removeAttribute("nom");
+        externalContext.redirect("login.xhtml");
     }
     
      public void envoyerFormulaire() throws IOException {

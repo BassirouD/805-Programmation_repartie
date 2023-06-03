@@ -122,7 +122,7 @@ public class InscriptionBean {
             // Fermeture des ressources
             preparedStatement.close();
             con.close();
-            message="Inscription réussi avec succès!!!";
+            message="Inscription réussie avec succès!!!";
             nom="";
             prenom="";
             email="";

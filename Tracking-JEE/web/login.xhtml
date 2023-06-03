@@ -35,7 +35,7 @@
             <h:panelGrid columns="3" cellpadding="7" class="title-container">
                 <p:outputLabel value="#{loginBean.msg}"/>
             </h:panelGrid>
-            <!--<h:messages id="msgs"/>-->
+            <!--<h:messages id="messages"/>-->
             <div class="form-container">
                 <div class="card">
                 <h:form>
@@ -44,7 +44,7 @@
                     <p:inputText placeholder="Password" type="password" value="#{loginBean.password}" required="true"/><br/>
                     <br/>
                     <div class="button-container">
-                        <p:commandButton value="Connecter" action="#{loginBean.login}" styleClass="green-button mt-1" immediate="false"/>
+                        <p:commandButton value="Connecter" action="#{loginBean.login}" styleClass="green-button mt-3" immediate="false"/>
                         <h:commandButton value="S'inscrire" styleClass="mt-1" onclick="window.location.href='inscription.xhtml'; return false;"/>
                     </div>
                 </h:form>
