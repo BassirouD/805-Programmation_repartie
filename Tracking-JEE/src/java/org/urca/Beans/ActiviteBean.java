@@ -10,6 +10,7 @@ import javax.annotation.ManagedBean;
 import javax.annotation.PostConstruct;
 import javax.enterprise.context.RequestScoped;
 import javax.enterprise.context.SessionScoped;
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
@@ -22,7 +23,25 @@ import org.urca.utils.UtilsConnexion;
 @ManagedBean
 @SessionScoped
 public class ActiviteBean  implements Serializable {
+    private String nom;
+    private String message;
     private List<Activite> activites;
+    
+    public String getMessage() {
+        return message;
+    }
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
+    
+    public String getNom() {
+        return nom;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
+    }
 
     public List<Activite> getActivites() {
         return activites;
@@ -42,7 +61,6 @@ public class ActiviteBean  implements Serializable {
         HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
         HttpSession session = request.getSession();
         int id1 = (int) session.getAttribute("id");
-        System.out.println("----------------------------------------------------------------------------" + id1);
         List<Activite> activites = new ArrayList<>();
         ResultSet rs = null;
         
@@ -61,11 +79,41 @@ public class ActiviteBean  implements Serializable {
                 activite.setId(id);
                 activite.setNom(nom);
                 activites.add(activite);
-                System.out.println("IdAc:=======> "+activite.getNom());
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return activites;
+    }
+    
+    public void saveActivite() throws Exception{
+        ResultSet rs = null;
+        ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+        HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+        HttpSession session = request.getSession();
+        int id = (int) session.getAttribute("id");
+        try{
+            Connection con = UtilsConnexion.seConnecter();
+            String sql = "INSERT INTO activite (nom, sportif_id) VALUES (?, ?)";
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            
+            System.out.println("Dedans....2");
+            System.out.println("ID dans save activite"+id);
+            preparedStatement.setString(1, nom);
+            preparedStatement.setLong(2, id);
+              // Exécution de la requête
+            preparedStatement.executeUpdate();
+
+            // Fermeture des ressources
+            preparedStatement.close();
+            con.close();
+            message="Inscription réussie avec succès!!!";
+            nom="";
+            
+            externalContext.redirect("accueil.xhtml");
+        }catch(Exception e) {
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Erreur de base de données", "Une erreur s'est produite lors de la connexion à la base de données.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        }
     }
 }

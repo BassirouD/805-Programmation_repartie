@@ -7,6 +7,30 @@
     <f:view>
         <h:head>
             <title>Page Accueil</title>
+                <style>
+                    .form-container {
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        border: 1px solid #ccc;
+                        padding: 20px;
+                        border-radius: 5px;
+                        margin-left: 15%;
+                        margin-right: 15%;
+                    }
+                    .title-container {
+                        display: flex;
+                        justify-content: center;
+                    }
+                    .button-container {
+                        display: flex;
+                        justify-content: space-between;
+                    }
+                    .green-button {
+                        background-color: green;
+                        color: white;
+                    }
+                </style>
         </h:head>
         <h:body>
            <h1 class="title-container">Page Accueil</h1>
@@ -22,13 +46,11 @@
            
            <br/>
 
-
            <p:panel id="pnl" header="Mes activités">
                <h:form style="margin-left: 2%">
-                   Entrez le nom de l'activité:<h:inputText style="margin-left: 2%;margin-right: 2%" />
-                   <p:commandButton value="Ajouter" />
+                   Entrez le nom de l'activité:<h:inputText value="#{activiteBean.nom}" style="margin-left: 2%;margin-right: 2%" required="true" requiredMessage="Le nom de l'activité est obligatoire"/>
+                   <p:commandButton action="#{activiteBean.saveActivite}" value="Ajouter" />
                </h:form>
-               
                 <h:panelGrid columns="3" cellpadding="7">
                     <!--<h:dataTable value="#{activiteBean.activites}" var="activite">
                         <p:column style="width:20px">
@@ -40,7 +62,6 @@
                             <h:outputText value="#{activite.nom}"/>
                         </p:column>
                     </h:dataTable>-->
-                    
                     <p:dataTable value="#{activiteBean.activites}" var="activite">
                         <p:column headerText="ID">
                             <h:outputText value="#{activite.id}" />
@@ -49,12 +70,14 @@
                             <h:outputText value="#{activite.nom}" />
                         </p:column>
                         <p:column headerText="Actions">
-                            <p:commandButton value="Détail" styleClass="green-button"/>
+                            <p:commandButton value="Détail" styleClass="green-button" action="planning.xhtml">
+                                <f:param name="activite_id" value="#{activite.id}" />
+                            </p:commandButton>
                             <p:commandButton value="Supprimer" styleClass="green-button"/>
+                            <p:commandButton value="Lancer" styleClass="green-button"/>
                         </p:column>
                     </p:dataTable>
                 </h:panelGrid>
-               
             </p:panel>
         </h:body>
     </f:view>

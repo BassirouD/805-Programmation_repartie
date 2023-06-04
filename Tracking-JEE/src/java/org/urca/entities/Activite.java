@@ -21,5 +21,4 @@ public class Activite {
         this.nom = nom;
     }
     
-    
 }
