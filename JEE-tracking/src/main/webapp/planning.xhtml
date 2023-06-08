@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<f:view>
+    <h:head>
+        <title>Facelet planning</title>
+        <style type="text/css">
+            .form-container {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                border: 1px solid #ccc;
+                padding: 20px;
+                border-radius: 5px;
+                margin-left: 15%;
+                margin-right: 15%;
+            }
+            .title-container {
+                display: flex;
+                justify-content: center;
+            }
+            .button-container {
+                display: flex;
+                justify-content: space-between;
+            }
+            .green-button {
+                background-color: green;
+                color: white;
+            }
+        </style>
+
+
+    </h:head>
+    <h:body>
+        <h1 class="title-container">Page planning</h1>
+        <p:panel id="pnl" header="Mes trainings">
+            <h:form style="margin-left: 1%">
+                <p:commandButton value="Retour" action="accueil.xhtml" />
+            </h:form>
+            <h:panelGrid columns="3" cellpadding="7">
+                <p:dataTable value="#{planningBean.plannings}" var="planning">
+                    <p:column headerText="ID">
+                        <h:outputText value="#{planning.id}" />
+                    </p:column>
+                    <p:column headerText="Date">
+                        <h:outputText value="#{planning.date}" />
+                    </p:column>
+                    <p:column headerText="Heure Debut">
+                        <h:outputText value="#{planning.heured}" />
+                    </p:column>
+                    <p:column headerText="Heure Fin">
+                        <h:outputText value="#{planning.heuref}" />
+                    </p:column>
+                    <p:column headerText="Actions">
+                        <p:commandButton value="GPS" styleClass="rounded-button ui-button-warning" onclick="window.location.href='gmap.xhtml'"/>
+                    </p:column>
+                </p:dataTable>
+            </h:panelGrid>
+        </p:panel>
+    </h:body>
+</f:view>
+</html>
