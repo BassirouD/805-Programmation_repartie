@@ -24,4 +24,9 @@
         <managed-bean-class>urca.diallo.jeetracking.beans.PlanningBean</managed-bean-class>
         <managed-bean-scope>request</managed-bean-scope>
     </managed-bean>
+    <managed-bean>
+        <managed-bean-name>stopBean</managed-bean-name>
+        <managed-bean-class>urca.diallo.jeetracking.beans.StopBean</managed-bean-class>
+        <managed-bean-scope>request</managed-bean-scope>
+    </managed-bean>
 </faces-config>

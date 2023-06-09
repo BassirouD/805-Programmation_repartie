@@ -40,7 +40,7 @@
         <h1 class="title-container">Page planning</h1>
         <p:panel id="pnl" header="Mes trainings">
             <h:form style="margin-left: 1%">
-                <p:commandButton value="Retour" action="accueil.xhtml" />
+                <p:commandButton value="Retour" onclick="window.location.href='home.xhtml'"/>
             </h:form>
             <h:panelGrid columns="3" cellpadding="7">
                 <p:dataTable value="#{planningBean.plannings}" var="planning">

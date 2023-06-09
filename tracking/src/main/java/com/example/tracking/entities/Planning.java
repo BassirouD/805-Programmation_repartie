@@ -16,7 +16,7 @@ public class Planning {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Date date;
+    private String date;
     private String heureD;
     private String heureF;
     @ManyToOne

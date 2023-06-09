@@ -2,11 +2,14 @@ package urca.diallo.jeetracking.beans;
 
 import jakarta.annotation.ManagedBean;
 import jakarta.annotation.PostConstruct;
+import jakarta.enterprise.context.SessionScoped;
 import jakarta.faces.annotation.ManagedProperty;
+import jakarta.faces.application.FacesMessage;
 import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.faces.view.ViewScoped;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import urca.diallo.jeetracking.entities.Planning;
 import urca.diallo.jeetracking.utils.UtilsConnexion;
 
@@ -15,14 +18,18 @@ import java.io.Serializable;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 
 @ManagedBean
-@ViewScoped
+@SessionScoped
 public class PlanningBean implements Serializable {
     private Long id;
-    @ManagedProperty(value="#{param.activite_id}")
+    @ManagedProperty(value = "#{param.activite_id}")
     private Long activite_id;
     private String date;
     private String heured;
@@ -31,6 +38,7 @@ public class PlanningBean implements Serializable {
 
     ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
     HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+    HttpSession session;
 
     public List<Planning> getPlannings() {
         return plannings;
@@ -88,7 +96,7 @@ public class PlanningBean implements Serializable {
         this.plannings = getAllPlannigByActivite(activite_id1);
     }
 
-    public List<Planning> getAllPlannigByActivite(Long activite_id){
+    public List<Planning> getAllPlannigByActivite(Long activite_id) {
         this.plannings = new ArrayList<>();
         ResultSet rs = null;
         try {
@@ -111,10 +119,7 @@ public class PlanningBean implements Serializable {
                 planning.setHeuref(heuref1);
                 plannings.add(planning);
             }
-
-
-
-        }catch (Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
         }
         return plannings;
@@ -125,4 +130,73 @@ public class PlanningBean implements Serializable {
         externalContext.redirect("planning.xhtml");
     }
 
+    public void initPlannig() {
+        try {
+            ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
+            HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
+            Long activite_id1 = Long.parseLong(request.getParameter("activite_id"));
+            Connection con = UtilsConnexion.seConnecter();
+            DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+            LocalDateTime now = LocalDateTime.now();
+            String todayDate = dtf.format(now);
+            LocalTime currentTime = LocalTime.now();
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+            String actuTime = currentTime.format(formatter);
+
+            String sql = "INSERT INTO planning (activite_id, date, heured) VALUES (?, ?, ?)";
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setLong(1, activite_id1);
+            preparedStatement.setString(2, todayDate);
+            preparedStatement.setString(3, actuTime);
+            preparedStatement.executeUpdate();
+
+            Long idPlanning = getIdPlanning(activite_id1, todayDate, actuTime);
+            session = request.getSession();
+            session.setAttribute("idPlanning", idPlanning);
+            // Fermeture des ressources
+            preparedStatement.close();
+            con.close();
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Activité lancé", "Activity is running.");
+            FacesContext.getCurrentInstance().addMessage(null, message);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    public Long getIdPlanning(Long id_ativite, String datePlanning, String heurePlanning) throws Exception {
+        Connection con = UtilsConnexion.seConnecter();
+        String sql = "SELECT * FROM planning WHERE activite_id = ? AND date = ? AND heured = ?";
+        PreparedStatement preparedStatement = con.prepareStatement(sql);
+        preparedStatement = con.prepareStatement(sql);
+        preparedStatement.setLong(1, id_ativite);
+        preparedStatement.setString(2, datePlanning);
+        preparedStatement.setString(3, heurePlanning);
+        ResultSet rs = preparedStatement.executeQuery();
+        Long idPlanning = null;
+        if (rs.next()) {
+            idPlanning = Long.parseLong(rs.getString(2));
+        }
+
+        preparedStatement.close();
+        con.close();
+        return idPlanning;
+    }
+
+    public void stopPlanning() throws Exception {
+        LocalTime currentTime = LocalTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        String actuTime = currentTime.format(formatter);
+        session = request.getSession();
+        Long idPlanning = (Long) session.getAttribute("idPlanning");
+        System.out.println("------------++++++++++++++++++++++idPlanning++++++++++++++++++++++-" + idPlanning);
+        Connection con = UtilsConnexion.seConnecter();
+        String sql = "UPDATE planning SET heuref = ? WHERE id = ?";
+        PreparedStatement preparedStatement = con.prepareStatement(sql);
+        preparedStatement.setString(1, actuTime);
+        preparedStatement.setLong(2, idPlanning);
+        preparedStatement.executeUpdate();
+        preparedStatement.close();
+        con.close();
+        session.removeAttribute("idPlanning");
+    }
 }

@@ -44,6 +44,9 @@
     </h:head>
     <h:body>
         <h1 class="title-container">Page Accueil</h1>
+
+        <p:messages showDetail="false" autoUpdate="true" closable="true" />
+        <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
         <!--<h:panelGrid columns="3" cellpadding="7" class="title-container">
             <p:outputLabel value="#{loginBean.nom}"/>
         </h:panelGrid>-->
@@ -56,10 +59,10 @@
         <br/>
         <p:panel styleClass="home-panel" id="pnl" header="Liste des activités">
             <h:form>
-                <p:messages showDetail="false" autoUpdate="true" closable="true" />
+                <p:growl id="msgs2" showDetail="true" skipDetailIfEqualsSummary="true"/>
                 Entrez le nom de l'activité:
                 <h:inputText  value="#{activiteBean.nom}" style="margin-left: 2%;margin-right: 2%;height: 100%;" required="true" requiredMessage="Le nom de l'activité est obligatoire"/>
-                <p:commandButton action="#{activiteBean.saveActivite}" value="Ajouter" styleClass="ui-button-flat" />
+                <p:commandButton update="msgs2" action="#{activiteBean.saveActivite}" value="Ajouter" styleClass="ui-button-flat" />
             </h:form>
             <br/>
             <p:panelGrid columns="3">
@@ -74,8 +77,10 @@
                         <p:commandButton value="Détail" styleClass="ui-button-raised ui-button-success" action="planning.xhtml">
                             <f:param name="activite_id" value="#{activite.id}" />
                         </p:commandButton>
-                        <p:commandButton style="margin-left: 1%;margin-right: 1%" value="Supprimer" styleClass="ui-button-raised ui-button-danger ui-button-flat"/>
-                        <p:commandButton value="Lancer" styleClass="rounded-button ui-button-warning"/>
+                        <p:commandButton update="msgs" style="margin-left: 1%;margin-right: 1%" value="STOP" styleClass="ui-button-raised ui-button-danger ui-button-flat" action="#{stopBean.stopPlanning}"/>
+                        <p:commandButton update="msgs" value="Lancer" styleClass="rounded-button ui-button-warning" action="#{planningBean.initPlannig}">
+                            <f:param name="activite_id" value="#{activite.id}"/>
+                        </p:commandButton>
                     </p:column>
                 </p:dataTable>
             </p:panelGrid>
