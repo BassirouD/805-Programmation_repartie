@@ -49,6 +49,11 @@
         .form-group button {
             width: 100%;
         }
+
+        .button-container {
+            display: flex;
+            justify-content: space-between;
+        }
     </style>
 </h:head>
 
@@ -56,49 +61,53 @@
     <div class="container">
         <h2>Register</h2>
         <h:form>
-            <p:messages showDetail="false" autoUpdate="true" closable="true" />
+            <p:messages showDetail="false" autoUpdate="true" closable="true"/>
 
             <div class="form-group">
-                <p:outputLabel for="nom" value="Nom:" />
-                <p:inputText id="nom" value="#{registerBean.nom}" required="true" />
+                <p:outputLabel for="nom" value="Nom:"/>
+                <p:inputText id="nom" value="#{registerBean.nom}" required="true"/>
                 <p:message for="nom" styleClass="error-message"/>
             </div>
 
             <div class="form-group">
-                <p:outputLabel for="prenom" value="Prénom:" />
-                <p:inputText id="prenom" value="#{registerBean.prenom}" required="true" />
-                <p:message for="prenom" />
+                <p:outputLabel for="prenom" value="Prénom:"/>
+                <p:inputText id="prenom" value="#{registerBean.prenom}" required="true"/>
+                <p:message for="prenom"/>
             </div>
 
             <div class="form-group">
-                <p:outputLabel for="email" value="Email:" />
-                <p:inputText id="email" value="#{registerBean.email}" required="true" validatorMessage="Veuillez entrer une adresse e-mail valide.">
-                    <f:validateRegex pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$" />
+                <p:outputLabel for="email" value="Email:"/>
+                <p:inputText id="email" value="#{registerBean.email}" required="true"
+                             validatorMessage="Veuillez entrer une adresse e-mail valide.">
+                    <f:validateRegex pattern="^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$"/>
                 </p:inputText>
-                <p:message for="email" />
+                <p:message for="email"/>
             </div>
 
 
             <div class="form-group">
-                <p:outputLabel for="password" value="Mot de passe:" />
-                <p:password id="password" value="#{registerBean.password}" required="true" feedback="true" />
-                <p:message for="password" />
+                <p:outputLabel for="password" value="Mot de passe:"/>
+                <p:password id="password" value="#{registerBean.password}" required="true" feedback="true"/>
+                <p:message for="password"/>
             </div>
 
             <div class="form-group">
-                <p:outputLabel for="age" value="Age:" />
+                <p:outputLabel for="age" value="Age:"/>
                 <p:inputText id="age" value="#{registerBean.age}" required="true" type="number"/>
-                <p:message for="age" />
+                <p:message for="age"/>
             </div>
 
             <div class="form-group">
-                <p:outputLabel for="poids" value="Poids:" />
+                <p:outputLabel for="poids" value="Poids:"/>
                 <p:inputText id="poids" value="#{registerBean.poids}" required="true" type="number"/>
-                <p:message for="poids" />
+                <p:message for="poids"/>
             </div>
 
-            <div class="form-group">
-                <p:commandButton value="Register" action="#{registerBean.register}" update="@form" />
+            <div class="button-container">
+                <p:commandButton value="Register" action="#{registerBean.register}" update="@form" style="width: 50%;margin-right: 1%"/>
+
+                <p:commandButton type="button" value="Login" styleClass="ui-button-outlined ui-button-success mt-3"
+                                 onclick="window.location.href='login.xhtml'" style="width: 50%;margin-left: 1%"/>
             </div>
         </h:form>
     </div>

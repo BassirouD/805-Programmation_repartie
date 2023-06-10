@@ -11,6 +11,8 @@ import jakarta.faces.view.ViewScoped;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import urca.diallo.jeetracking.entities.Planning;
+import urca.diallo.jeetracking.utils.EnregistrementPositionGPS;
+import urca.diallo.jeetracking.utils.PointMethod;
 import urca.diallo.jeetracking.utils.UtilsConnexion;
 
 import java.io.IOException;
@@ -24,6 +26,9 @@ import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 @ManagedBean
 @SessionScoped
@@ -35,6 +40,7 @@ public class PlanningBean implements Serializable {
     private String heured;
     private String heuref;
     private List<Planning> plannings;
+    private ScheduledExecutorService scheduler;
 
     ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
     HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
@@ -158,6 +164,9 @@ public class PlanningBean implements Serializable {
             con.close();
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Activité lancé", "Activity is running.");
             FacesContext.getCurrentInstance().addMessage(null, message);
+//            PointMethod.savePosition(idPlanning);
+            scheduler = Executors.newSingleThreadScheduledExecutor();
+            scheduler.scheduleAtFixedRate(new EnregistrementPositionGPS(idPlanning), 0, 2, TimeUnit.MINUTES);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
