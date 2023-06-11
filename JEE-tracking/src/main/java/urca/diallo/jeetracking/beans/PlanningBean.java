@@ -40,7 +40,7 @@ public class PlanningBean implements Serializable {
     private String heured;
     private String heuref;
     private List<Planning> plannings;
-    private ScheduledExecutorService scheduler;
+    public static ScheduledExecutorService scheduler;
 
     ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
     HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
@@ -98,8 +98,18 @@ public class PlanningBean implements Serializable {
     public void init() {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
-        Long activite_id1 = Long.parseLong(request.getParameter("activite_id"));
-        this.plannings = getAllPlannigByActivite(activite_id1);
+        String activite_idS = request.getParameter("activite_id");
+        if (activite_idS != null) {
+            activite_id = Long.parseLong(activite_idS);
+            this.plannings = getAllPlannigByActivite(activite_id);
+            session = request.getSession();
+            session.setAttribute("activite_id", activite_id);
+        } else {
+            session = request.getSession();
+            this.plannings = getAllPlannigByActivite((Long) session.getAttribute("activite_id"));
+            session.removeAttribute("activite_id");
+            System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++");
+        }
     }
 
     public List<Planning> getAllPlannigByActivite(Long activite_id) {

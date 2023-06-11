@@ -61,7 +61,6 @@ public class ActiviteBean  implements Serializable {
         int id1 = (int) session.getAttribute("id");
         List<Activite> activites = new ArrayList<>();
         ResultSet rs = null;
-
         try {
             Connection con = UtilsConnexion.seConnecter();
             String sql = "SELECT * FROM activite WHERE sportif_id = ?";
