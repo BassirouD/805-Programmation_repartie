@@ -17,6 +17,8 @@ import java.util.Random;
 import java.util.concurrent.ScheduledExecutorService;
 
 public class EnregistrementPositionGPS implements Runnable {
+
+    public static Double distance = 0.0;
     private static final double MIN_LATITUDE = 36.879466;
     private static final double MAX_LATITUDE = 37.988888;
     private static final double MIN_LONGITUDE = 30.667648;
@@ -62,10 +64,12 @@ public class EnregistrementPositionGPS implements Runnable {
                     preparedStatement.setDouble(3, longitude);
                     preparedStatement.setString(4, hour);
                     preparedStatement.executeUpdate();
+                    distance++;
                     preparedStatement.close();
                     con.close();
                 } else {
                     this.is_stop = 1;
+                    distance = 0.0;
                     PlanningBean.scheduler.shutdown();
                 }
             }

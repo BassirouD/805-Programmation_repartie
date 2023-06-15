@@ -57,11 +57,11 @@
                         <h:outputText value="#{planning.heuref}" />
                     </p:column>
                     <p:column headerText="Actions">
-                        <p:commandButton value="GPS000" styleClass="ui-button-raised ui-button-success" action="gmap.xhtml">
-                            <f:param name="planning_id" value="#{planning.id}" />
-                        </p:commandButton>
-                        <p:commandButton value="GPS" styleClass="rounded-button ui-button-warning" onclick="window.location.href='gmap.xhtml'"/>
-                        <p:commandButton value="GPS111" styleClass="ui-button-raised ui-button-success"
+<!--                        <p:commandButton value="GPS000" styleClass="ui-button-raised ui-button-success" action="gmap.xhtml">-->
+<!--                            <f:param name="planning_id" value="#{planning.id}" />-->
+<!--                        </p:commandButton>-->
+<!--                        <p:commandButton value="GPS" styleClass="rounded-button ui-button-warning" onclick="window.location.href='gmap.xhtml'"/>-->
+                        <p:commandButton value="GPS" styleClass="rounded-button ui-button-warning"
                                          onclick="window.location.href='gmap.xhtml?planning_id=#{planning.id}'"/>
                     </p:column>
                 </p:dataTable>

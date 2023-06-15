@@ -18,15 +18,14 @@ public class SpringTracking2Application {
     @Bean
     CommandLineRunner start(IServices iServices) {
         return args -> {
-
-            iServices.saveSportif(new Sportif(null, "Diallo", "Bassirou", "diallo@gmail.com", "toor", 30, 20.0));
-            iServices.saveSportif(new Sportif(null, "Ba", "Aziz", "aziz@gmail.com", "toor", 30, 20.0));
-            iServices.saveSportif(new Sportif(null, "Gueye", "Mohamed", "momo@gmail.com", "toor", 30, 20.0));
-
-            iServices.getAllSportifs().forEach(sportif -> {
-                iServices.saveActivite(sportif.getId(), new Activite(null, "Vélo"));
-            });
-            iServices.activiteHistory(1L).forEach(System.out::println);
+//            iServices.saveSportif(new Sportif(null, "Diallo", "Bassirou", "diallo@gmail.com", "toor", 30, 20.0));
+//            iServices.saveSportif(new Sportif(null, "Ba", "Aziz", "aziz@gmail.com", "toor", 30, 20.0));
+//            iServices.saveSportif(new Sportif(null, "Gueye", "Mohamed", "momo@gmail.com", "toor", 30, 20.0));
+//
+//            iServices.getAllSportifs().forEach(sportif -> {
+//                iServices.saveActivite(sportif.getId(), new Activite(null, "Vélo"));
+//            });
+//            iServices.activiteHistory(1L).forEach(System.out::println);
         };
     }
 }

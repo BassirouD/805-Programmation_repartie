@@ -48,18 +48,23 @@
 </h:head>
 <h:body>
     <h1 class="title-container">Page Accueil</h1>
-
-    <p:messages showDetail="false" autoUpdate="true" closable="true"/>
-    <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
-    <!--<h:panelGrid columns="3" cellpadding="7" class="title-container">
-        <p:outputLabel value="#{loginBean.nom}"/>
-    </h:panelGrid>-->
     <div style="display: flex;justify-content: space-between">
         <h:outputText value="Bienvenue, #{sessionScope.nom}" style="font-size: 20px;"/>
         <h:form>
             <p:commandButton action="#{loginBean.logout}" value="Logout" styleClass="ui-button-danger"/>
         </h:form>
     </div>
+<!--    <p:tabMenu activeIndex="#{param.i}">-->
+<!--        <p:menuitem value="Home" outcome="home.xhtml" icon="pi pi-fw pi-home"></p:menuitem>-->
+<!--        <p:menuitem value="Profile" outcome="polylinemap.xhtml" icon="pi pi-fw pi-user"></p:menuitem>-->
+<!--    </p:tabMenu>-->
+
+    <p:messages showDetail="false" autoUpdate="true" closable="true"/>
+    <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
+    <!--<h:panelGrid columns="3" cellpadding="7" class="title-container">
+        <p:outputLabel value="#{loginBean.nom}"/>
+    </h:panelGrid>-->
+
     <br/>
     <p:panel styleClass="home-panel" id="pnl" header="Liste des activités">
         <h:form>
@@ -95,7 +100,5 @@
             </p:dataTable>
         </p:panelGrid>
     </p:panel>
-    <p:commandButton value="GPS000" styleClass="ui-button-raised ui-button-success"
-                     onclick="window.location.href='gmap.xhtml'"/>
 </h:body>
 </html>

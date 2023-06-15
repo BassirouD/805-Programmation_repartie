@@ -7,6 +7,7 @@ import jakarta.faces.context.ExternalContext;
 import jakarta.faces.context.FacesContext;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
+import urca.diallo.jeetracking.utils.EnregistrementPositionGPS;
 import urca.diallo.jeetracking.utils.UtilsConnexion;
 
 import java.sql.Connection;
@@ -35,14 +36,14 @@ public class StopBean {
             preparedStatement.setLong(2, idPlanning);
             preparedStatement.executeUpdate();
             preparedStatement.close();
+            System.out.println(" +++++++++++++++distance2++++++++++:>" + EnregistrementPositionGPS.distance);
             con.close();
             session.removeAttribute("idPlanning");
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Planning arrété", "Planning stop done...");
             FacesContext.getCurrentInstance().addMessage(null, message);
-        } else{
+        } else {
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Aucun planning en cours", "Planning none...");
             FacesContext.getCurrentInstance().addMessage(null, message);
         }
-
     }
 }

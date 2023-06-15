@@ -25,8 +25,18 @@ import java.util.List;
 @Named
 @ViewScoped
 public class PointBean implements Serializable {
+
+    Planning planning;
     private List<Point> points;
     private Point selectedPoint;
+
+    public Planning getPlanning() {
+        return planning;
+    }
+
+    public void setPlanning(Planning planning) {
+        this.planning = planning;
+    }
 
     private MapModel<Long> simpleModel;
 
@@ -65,8 +75,8 @@ public class PointBean implements Serializable {
         ExternalContext externalContext = FacesContext.getCurrentInstance().getExternalContext();
         HttpServletRequest request = (HttpServletRequest) externalContext.getRequest();
         Long planning_id = Long.parseLong(request.getParameter("planning_id"));
-        System.out.println("******************************:>" + planning_id);
         this.points = getAllPoints(planning_id);
+        this.planning = getPlanning(planning_id);
     }
 
     public List<Point> getAllPoints(Long planning_id) {
@@ -78,7 +88,7 @@ public class PointBean implements Serializable {
             Connection con = UtilsConnexion.seConnecter();
             String sql = "SELECT * FROM point WHERE planning_id = ?";
             PreparedStatement preparedStatement = con.prepareStatement(sql);
-            preparedStatement = con.prepareStatement(sql);
+//            preparedStatement = con.prepareStatement(sql);
             preparedStatement.setLong(1, planning_id);
             rs = preparedStatement.executeQuery();
             while (rs.next()) {
@@ -86,7 +96,6 @@ public class PointBean implements Serializable {
                 Double latitude = Double.parseDouble(rs.getString("latitude"));
                 Double longitude = Double.parseDouble(rs.getString("longitude"));
                 String heure = rs.getString("heure");
-                System.out.println("latitude: " + latitude + " longitude: " + longitude + " heure: " + heure);
                 Point point = new Point();
                 point.setId(id);
                 point.setHour(heure);
@@ -100,6 +109,33 @@ public class PointBean implements Serializable {
             e.printStackTrace();
         }
         return points;
+    }
+
+    public Planning getPlanning(Long planning_id) {
+        this.planning = new Planning();
+        ResultSet rs = null;
+        try {
+            Connection con = UtilsConnexion.seConnecter();
+            String sql = "SELECT * FROM planning WHERE id = ?";
+            PreparedStatement preparedStatement = con.prepareStatement(sql);
+            preparedStatement.setLong(1, planning_id);
+            rs = preparedStatement.executeQuery();
+            while (rs.next()) {
+                String date = rs.getString("date");
+                String heured = rs.getString("heured");
+                String heuref = rs.getString("heuref");
+                this.planning.setDate(date);
+                this.planning.setHeured(heured);
+                this.planning.setHeuref(heuref);
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        System.out.println("++++Date++>+" + planning.getDate());
+
+        return this.planning;
     }
 
 }
