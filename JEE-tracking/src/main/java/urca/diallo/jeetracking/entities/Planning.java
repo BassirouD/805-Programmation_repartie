@@ -6,6 +6,25 @@ public class Planning {
     private String date;
     private String heured;
     private String heuref;
+    private Long duree;
+    private Long distance;
+
+    public Long getDuree() {
+        return duree;
+    }
+
+    public void setDuree(Long duree) {
+        this.duree = duree;
+    }
+
+    public Long getDistance() {
+        return distance;
+    }
+
+    public void setDistance(Long distance) {
+        this.distance = distance;
+    }
+
     public Long getId() {
         return id;
     }

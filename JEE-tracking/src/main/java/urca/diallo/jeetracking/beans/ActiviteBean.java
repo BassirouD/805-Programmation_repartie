@@ -67,10 +67,8 @@ public class ActiviteBean implements Serializable {
                 Connection con = UtilsConnexion.seConnecter();
                 String sql = "SELECT * FROM activite WHERE sportif_id = ?";
                 PreparedStatement preparedStatement = con.prepareStatement(sql);
-                preparedStatement = con.prepareStatement(sql);
                 preparedStatement.setLong(1, id1);
                 rs = preparedStatement.executeQuery();
-
                 while (rs.next()) {
                     Long id = rs.getLong("id");
                     String nom = rs.getString("nom");
@@ -79,6 +77,8 @@ public class ActiviteBean implements Serializable {
                     activite.setNom(nom);
                     activites.add(activite);
                 }
+                preparedStatement.close();
+                con.close();
             } catch (Exception e) {
                 e.printStackTrace();
             }

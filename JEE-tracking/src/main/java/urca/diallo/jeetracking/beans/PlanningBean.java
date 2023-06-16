@@ -33,6 +33,8 @@ import java.util.concurrent.TimeUnit;
 @ManagedBean
 @SessionScoped
 public class PlanningBean implements Serializable {
+
+    public static LocalTime GLOBALCURRENTTIME;
     private Long id;
     @ManagedProperty(value = "#{param.activite_id}")
     private Long activite_id;
@@ -108,7 +110,6 @@ public class PlanningBean implements Serializable {
             session = request.getSession();
             this.plannings = getAllPlannigByActivite((Long) session.getAttribute("activite_id"));
             session.removeAttribute("activite_id");
-            System.out.println("++++++++++++++++++++++++++++++++++++++++++++++++++");
         }
     }
 
@@ -119,7 +120,6 @@ public class PlanningBean implements Serializable {
             Connection con = UtilsConnexion.seConnecter();
             String sql = "SELECT * FROM planning WHERE activite_id = ?";
             PreparedStatement preparedStatement = con.prepareStatement(sql);
-            preparedStatement = con.prepareStatement(sql);
             preparedStatement.setLong(1, activite_id);
             rs = preparedStatement.executeQuery();
 
@@ -128,13 +128,19 @@ public class PlanningBean implements Serializable {
                 String date1 = rs.getString("date");
                 String heured1 = rs.getString("heured");
                 String heuref1 = rs.getString("heuref");
+                Long distance = rs.getLong("distance");
+                Long duree = rs.getLong("duree");
                 Planning planning = new Planning();
                 planning.setId(id1);
                 planning.setDate(date1);
                 planning.setHeured(heured1);
                 planning.setHeuref(heuref1);
+                planning.setDuree(duree);
+                planning.setDistance(distance);
                 plannings.add(planning);
             }
+            preparedStatement.close();
+            con.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -156,6 +162,7 @@ public class PlanningBean implements Serializable {
             LocalDateTime now = LocalDateTime.now();
             String todayDate = dtf.format(now);
             LocalTime currentTime = LocalTime.now();
+            GLOBALCURRENTTIME = currentTime;
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
             String actuTime = currentTime.format(formatter);
 
@@ -193,9 +200,8 @@ public class PlanningBean implements Serializable {
         ResultSet rs = preparedStatement.executeQuery();
         Long idPlanning = null;
         if (rs.next()) {
-            idPlanning = Long.parseLong(rs.getString(2));
+            idPlanning = Long.parseLong(rs.getString(4));
         }
-
         preparedStatement.close();
         con.close();
         return idPlanning;

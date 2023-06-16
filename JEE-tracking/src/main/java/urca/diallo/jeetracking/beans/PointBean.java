@@ -105,6 +105,8 @@ public class PointBean implements Serializable {
                 cpt++;
                 points.add(point);
             }
+            preparedStatement.close();
+            con.close();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -124,9 +126,13 @@ public class PointBean implements Serializable {
                 String date = rs.getString("date");
                 String heured = rs.getString("heured");
                 String heuref = rs.getString("heuref");
+                Long duree = Long.parseLong(rs.getString("duree"));
+                Long distance = Long.parseLong(rs.getString("distance"));
                 this.planning.setDate(date);
                 this.planning.setHeured(heured);
                 this.planning.setHeuref(heuref);
+                planning.setDistance(distance);
+                planning.setDuree(duree);
             }
 
         } catch (Exception e) {

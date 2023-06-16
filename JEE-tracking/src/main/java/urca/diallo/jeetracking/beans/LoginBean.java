@@ -70,7 +70,6 @@ public class LoginBean {
             Connection con = UtilsConnexion.seConnecter();
             String sql = "SELECT * FROM sportif WHERE email = ?";
             PreparedStatement preparedStatement = con.prepareStatement(sql);
-            preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, email);
             rs = preparedStatement.executeQuery();
             if (rs.next()) {
@@ -88,6 +87,8 @@ public class LoginBean {
                     session.setAttribute("id", id);
                     session.setAttribute("nom", nom);
                     int valeur = (int) session.getAttribute("id");
+                    preparedStatement.close();
+                    con.close();
                     externalContext.redirect("home.xhtml");
                 } else {
                     FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Identifiants invalides", "Veuillez vérifier votre mot de passe.");

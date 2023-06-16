@@ -19,6 +19,8 @@ public class Planning {
     private String date;
     private String heureD;
     private String heureF;
+    private Long duree;
+    private Long distance;
     @ManyToOne
     private Activite activite;
     @OneToMany(mappedBy = "planning", fetch = FetchType.EAGER)

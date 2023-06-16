@@ -12,6 +12,7 @@ import urca.diallo.jeetracking.utils.UtilsConnexion;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
+import java.time.Duration;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 
@@ -24,19 +25,22 @@ public class StopBean {
         HttpSession session;
 
         LocalTime currentTime = LocalTime.now();
+        Duration duree = Duration.between(PlanningBean.GLOBALCURRENTTIME, currentTime);
+        long minutes = duree.toMinutes() % 60;
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
         String actuTime = currentTime.format(formatter);
         session = request.getSession();
         Long idPlanning = (Long) session.getAttribute("idPlanning");
         if (idPlanning != null) {
             Connection con = UtilsConnexion.seConnecter();
-            String sql = "UPDATE planning SET heuref = ? WHERE id = ?";
+            String sql = "UPDATE planning SET heuref = ?, duree = ?, distance = ? WHERE id = ?";
             PreparedStatement preparedStatement = con.prepareStatement(sql);
             preparedStatement.setString(1, actuTime);
-            preparedStatement.setLong(2, idPlanning);
+            preparedStatement.setLong(2, minutes);
+            preparedStatement.setDouble(3, EnregistrementPositionGPS.distance);
+            preparedStatement.setLong(4, idPlanning);
             preparedStatement.executeUpdate();
             preparedStatement.close();
-            System.out.println(" +++++++++++++++distance2++++++++++:>" + EnregistrementPositionGPS.distance);
             con.close();
             session.removeAttribute("idPlanning");
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_INFO, "Planning arrété", "Planning stop done...");

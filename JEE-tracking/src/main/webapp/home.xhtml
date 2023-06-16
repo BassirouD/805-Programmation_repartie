@@ -54,10 +54,10 @@
             <p:commandButton action="#{loginBean.logout}" value="Logout" styleClass="ui-button-danger"/>
         </h:form>
     </div>
-<!--    <p:tabMenu activeIndex="#{param.i}">-->
-<!--        <p:menuitem value="Home" outcome="home.xhtml" icon="pi pi-fw pi-home"></p:menuitem>-->
-<!--        <p:menuitem value="Profile" outcome="polylinemap.xhtml" icon="pi pi-fw pi-user"></p:menuitem>-->
-<!--    </p:tabMenu>-->
+    <!--    <p:tabMenu activeIndex="#{param.i}">-->
+    <!--        <p:menuitem value="Home" outcome="home.xhtml" icon="pi pi-fw pi-home"></p:menuitem>-->
+    <!--        <p:menuitem value="Profile" outcome="polylinemap.xhtml" icon="pi pi-fw pi-user"></p:menuitem>-->
+    <!--    </p:tabMenu>-->
 
     <p:messages showDetail="false" autoUpdate="true" closable="true"/>
     <p:growl id="msgs" showDetail="true" skipDetailIfEqualsSummary="true"/>
@@ -96,6 +96,9 @@
                                      action="#{planningBean.initPlannig}">
                         <f:param name="activite_id" value="#{activite.id}"/>
                     </p:commandButton>
+                    <p:commandButton value="Statistique" styleClass="ui-button-outlined ui-button-help"
+                                     style="margin-left: 1%;margin-right: 1%"
+                                     onclick="window.location.href='chart.xhtml?activite_id=#{activite.id}'"/>
                 </p:column>
             </p:dataTable>
         </p:panelGrid>

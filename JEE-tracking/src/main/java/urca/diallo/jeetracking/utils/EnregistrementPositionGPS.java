@@ -19,10 +19,10 @@ import java.util.concurrent.ScheduledExecutorService;
 public class EnregistrementPositionGPS implements Runnable {
 
     public static Double distance = 0.0;
-    private static final double MIN_LATITUDE = 36.879466;
-    private static final double MAX_LATITUDE = 37.988888;
-    private static final double MIN_LONGITUDE = 30.667648;
-    private static final double MAX_LONGITUDE = 31.789216;
+    private static final double MIN_LATITUDE = 36.100800;
+    private static final double MAX_LATITUDE = 37.999999;
+    private static final double MIN_LONGITUDE = 30.100800;
+    private static final double MAX_LONGITUDE = 31.999999;
     private Long idPlanning;
     private Long activite_id;
     public static int is_stop = 0;
@@ -46,7 +46,7 @@ public class EnregistrementPositionGPS implements Runnable {
             preparedStatement1.setLong(1, idPlanning);
             rs = preparedStatement1.executeQuery();
             if (rs.next()) {
-                String heuref = rs.getString(5);
+                String heuref = rs.getString(7);
                 if (heuref == null) {
                     String sql = "INSERT INTO point (planning_id, latitude, longitude, heure) VALUES (?, ?, ?, ?)";
                     Random random = new Random();
@@ -64,7 +64,7 @@ public class EnregistrementPositionGPS implements Runnable {
                     preparedStatement.setDouble(3, longitude);
                     preparedStatement.setString(4, hour);
                     preparedStatement.executeUpdate();
-                    distance++;
+                    distance = distance + 0.3;
                     preparedStatement.close();
                     con.close();
                 } else {
